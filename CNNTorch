@@ -1,0 +1,41 @@
+import torch
+from torchvision import datasets
+from torchvision.transforms import ToTensor
+import matplotlib.pyplot as plt
+
+train_data = datasets.MNIST(
+    root='data',
+    train=True,
+    transform=ToTensor(),
+    download=True
+)
+
+test_data = datasets.MNIST(
+    root='data',
+    train=False,
+    transform=ToTensor()
+)
+ 
+   #The following can be used to print out train data, test data, or individually plot one sample data from the MNIST dataset
+
+#print(train_data)
+
+#print(test_data)
+
+    #Show train data of one 
+#plt.imshow(train_data.data[0], cmap='gray')
+#plt.title('%i' % train_data.targets[0])
+#plt.show()
+
+# Plots multiple responses from MNIST dataset
+
+figure = plt.figure(figsize=(10, 8))
+cols, rows = 5, 5
+for i in range(1, cols * rows + 1):
+    sample_idx = torch.randint(len(train_data), size=(1,)).item()
+    img, label = train_data[sample_idx]
+    figure.add_subplot(rows, cols, i)
+    plt.title(label)
+    plt.axis("off")
+    plt.imshow(img.squeeze(), cmap="gray")
+plt.show()
